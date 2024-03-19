@@ -1,0 +1,64 @@
+localectl set-keymap fr
+localectl set-locale LANG="en_US.UTF-8"
+
+timedatectl set-timezone Africa/Casablanca
+timedatectl set-ntp true
+
+pacman -S zram-generator
+nano /etc/systemd/zram-genarator.conf
+[zram0]
+zram-size = ram / 2
+systemctl daemon-reload
+systemctl start /dev/zram0
+
+pacman -S hyperland kitty xf86-video-intel rofi ranger waybar
+
+pacman -S pipewire-{alsa,pulse,jack} wireplumber pavucontrol
+systemctl --user enable --now wirepipe wirepipe-pulse wireplumber
+
+pacman -S firefox flatpak git noto-fonts vlc xdg-user-dirs   
+
+git clone https://aur.archlinux.org/trizen
+cd trizen
+makepkg -si --noconfirm
+trizen -S hyprlock hypridle hyprpaper
+
+pacman -S ufw openssh tmux
+systemctl enable sshd
+ufw default deny incoming
+yfw default allow outgoing
+ufw allow ssh
+ufw enable
+ufw status verbose
+
+pacman -S docker docker-compose
+systemctl enable docker
+tee /etc/modules.d/loop.conf <<< "loop"
+usermod -aG docker abdul
+
+mkdir  /boot/grub/themes/arch-linux
+git clone https://github.com/AdisonCavani/distro-grub-themes
+cd distro-grub-themes/themes
+tar -xvf arch-linux.tar -C /boot/grub/themes/arch-linux
+cd && rm -rf distro-grub-themes
+nano /etc/default/grub
+GRUB_DEFAULT="saved"
+GRUB_GFXMODE="1024x768"
+GRUB_THEME="/boot/grub/themes/arch-linux/theme.txt"
+GRUB_SAVEDEFAULT="true"
+GRUB_DISABLE_OS_PROBER="false"
+grub-mkconfig -o /boot/grub/grub.cfg
+
+
+nano .config/hypr/hyprland.conf
+
+
+
+
+
+
+
+
+
+
+
