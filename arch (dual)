@@ -4,6 +4,7 @@ loadkeys fr
 setfont ter-v24b
 
 cfdisk /dev/sda5
+mkfs.ext4 /dev/sda5
 mount /dev/sda5 /mnt
 mkdir /mnt/data
 mount /dev/sdb1 /mnt/data
@@ -27,9 +28,10 @@ nano /var/lib/iwd/<SSID>.psk
     | [Settings]
     | Hidden=true
 
-pacstrap /mnt base base-devel linux linux-firmware nano intel-code terminus-font
+pacstrap /mnt base base-devel linux linux-firmware nano intel-ucode terminus-font
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
+arch-chroot /mnt
 
 nano /etc/locale.gen
 ar_MA.UTF-8
