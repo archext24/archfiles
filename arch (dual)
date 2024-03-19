@@ -60,6 +60,7 @@ nano /etc/hosts
 
 useradd -mG wheel abdul
 passwd abdul
+
 EDITOR=nano visudo
 wheel ALL(=ALL) (ALL)
 
@@ -68,6 +69,10 @@ mkdir /boot/efi
 mount /dev/sda1 /boot/efi
 grub-install --target=x86_64-efi --bootloader-id=GRUB --recheck
 ls /boot/efi/EFI
+
+nano /etc/default/grub
+GRUB_DISABLE_OS_PROBER="false"
+
 grub-mkconfig -o /boot/grub/grub.cfg
 
 exit
